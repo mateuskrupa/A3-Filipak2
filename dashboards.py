@@ -13,13 +13,14 @@ st.set_page_config(layout="wide")
 df = pd.read_csv("banco.csv", sep=";", decimal=",")
 
 dig = st.sidebar.selectbox("Diagnosticos", df["Diagnostico"].unique())
-
 df_filtered = df[df["Diagnostico"] == dig]
+
 
 st.dataframe(df)
 
 col1, col2 = st.columns(2)
 col3, col4 = st.columns(2)
+
 
 leucocitos = px.bar(df_filtered, x="Diagnostico", y="Leucócitos", title="Leucócitos por diagnóstico", color="Diagnostico", orientation="v")
 col1.plotly_chart(leucocitos, use_container_width=True)
@@ -34,12 +35,11 @@ col3.plotly_chart(fig_media, use_container_width=True)
 bastonetes = px.bar(df_filtered, x="Diagnostico", y="Bastonetes", title="Bastonetes (Infecção)", color="Diagnostico", orientation="v")
 col4.plotly_chart(bastonetes, use_container_width=True)
 
-# Adicione os botões dentro da barra lateral
+
+
 export_png_button = st.sidebar.button("Exportar Gráficos em PNG")
 export_excel_button = st.sidebar.button("Exportar Gráficos para Excel")
 
-
-# Lógica de exportação dentro dos botões
 if export_png_button:
     leucocitos = px.bar(df_filtered, x="Diagnostico", y="Leucócitos", title="Leucócitos por diagnóstico", color="Diagnostico", orientation="v")
     leucocitos_bytes = BytesIO()
